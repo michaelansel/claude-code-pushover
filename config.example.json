@@ -1,0 +1,6 @@
+{
+  "user_key": "your-pushover-user-key",
+  "app_token": "your-pushover-app-token",
+  "delay": 30,
+  "rate_limit": 30
+}
