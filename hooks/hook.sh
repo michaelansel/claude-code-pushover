@@ -21,25 +21,46 @@ INPUT=$(cat)
 SESSION_ID=$(echo "$INPUT" | jq -r '.session_id // "unknown"')
 HOOK_EVENT=$(echo "$INPUT" | jq -r '.hook_event_name // "unknown"')
 NOTIF_TYPE=$(echo "$INPUT" | jq -r '.notification_type // empty')
-MESSAGE=$(echo "$INPUT" | jq -r '.message // "Claude needs your attention"')
+RAW_MESSAGE=$(echo "$INPUT" | jq -r '.message // empty')
+CWD=$(echo "$INPUT" | jq -r '.cwd // empty')
 
-# Map event to title
+# Derive project name from working directory
+PROJECT=""
+if [[ -n "$CWD" ]]; then
+  PROJECT=$(basename "$CWD")
+fi
+
+# Map event to title and message
 TITLE=""
+MESSAGE=""
 case "$HOOK_EVENT" in
   Notification)
     case "$NOTIF_TYPE" in
-      permission_prompt) TITLE="Permission Needed" ;;
-      idle_prompt)       TITLE="Idle" ;;
-      *)                 exit 0 ;;  # Skip irrelevant notification types
+      permission_prompt)
+        TITLE="Permission Needed"
+        MESSAGE="${RAW_MESSAGE:-Claude needs permission to continue}"
+        ;;
+      idle_prompt)
+        TITLE="Waiting for Input"
+        MESSAGE="${RAW_MESSAGE:-Claude is waiting for your response}"
+        ;;
+      *)
+        exit 0 ;;  # Skip irrelevant notification types
     esac
     ;;
   Stop)
     TITLE="Task Complete"
+    MESSAGE="Claude has finished working"
     ;;
   *)
     exit 0
     ;;
 esac
+
+# Prepend project name to title
+if [[ -n "$PROJECT" ]]; then
+  TITLE="$PROJECT: $TITLE"
+fi
 
 # Set up marker directory
 MARKER_DIR="${TMPDIR:-/tmp}/claude-pushover"
