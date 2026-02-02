@@ -1,7 +1,9 @@
 {
-  "name": "pushover-notify",
+  "name": "notify-pushover",
   "description": "Pushover notifications when Claude needs attention (with 30s delay to avoid unnecessary alerts)",
   "author": {
     "name": "Michael Ansel"
-  }
+  },
+  "hooks": "./hooks/hooks.json",
+  "skills": "./skills"
 }
