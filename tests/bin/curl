@@ -1,0 +1,3 @@
+#!/usr/bin/env bash
+# Mock curl — logs all arguments to $MOCK_CURL_LOG
+echo "$@" >> "$MOCK_CURL_LOG"
