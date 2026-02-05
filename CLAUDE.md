@@ -9,7 +9,7 @@ A Pushover notification plugin for Claude Code that sends push notifications whe
 Pure shell scripts, no build system. Three hook scripts wired to Claude Code's event system:
 
 - **`hooks/hook.sh`** — Main notification trigger. Handles `Notification` (permission_prompt, idle_prompt) and `Stop` events. Creates a marker file, spawns a detached background process that sleeps for `delay` seconds, then sends a Pushover API call if the marker still exists.
-- **`hooks/cancel.sh`** — Cancellation handler for `UserPromptSubmit`. Removes all pending marker files to cancel queued notifications.
+- **`hooks/cancel.sh`** — Cancellation handler for `PreToolUse` and `UserPromptSubmit`. Removes all pending marker files to cancel queued notifications.
 - **`hooks/hooks.json`** — Event-to-script mapping configuration.
 - **`hooks/setup-check.sh`** — Setup hook that checks for missing credentials and prompts the user to run `/notify-pushover:setup`.
 - **`skills/setup/SKILL.md`** — Interactive setup skill that walks users through configuring Pushover credentials.
@@ -19,7 +19,7 @@ Pure shell scripts, no build system. Three hook scripts wired to Claude Code's e
 | File | Purpose |
 |------|---------|
 | `.claude-plugin/plugin.json` | Plugin metadata for Claude Code |
-| `hooks/hooks.json` | Hook event configuration (4 events) |
+| `hooks/hooks.json` | Hook event configuration (5 events) |
 | `hooks/hook.sh` | Notification trigger + rate limiting |
 | `hooks/cancel.sh` | Notification cancellation |
 | `hooks/setup-check.sh` | Setup hook — validates config on plugin load |

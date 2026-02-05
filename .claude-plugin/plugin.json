@@ -1,7 +1,7 @@
 {
   "name": "notify-pushover",
   "description": "Pushover notifications when Claude needs attention (with 30s delay to avoid unnecessary alerts)",
-  "version": "1.2.0",
+  "version": "1.2.1",
   "author": {
     "name": "Michael Ansel"
   },

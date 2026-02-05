@@ -23,6 +23,13 @@
         "timeout": 5
       }]
     }],
+    "PreToolUse": [{
+      "hooks": [{
+        "type": "command",
+        "command": "${CLAUDE_PLUGIN_ROOT}/hooks/cancel.sh",
+        "timeout": 5
+      }]
+    }],
     "UserPromptSubmit": [{
       "hooks": [{
         "type": "command",
